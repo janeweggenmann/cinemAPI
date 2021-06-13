@@ -40,7 +40,7 @@ http
       //adds a header to the response, along with status code of 200 which means 'OK'
       response.writeHead(200, { "Content-Type": "text/html" });
       response.write(data);
-      response.end("Hello Node!\n");
+      response.end();
     });
 
     //listens for a response on port 8080
