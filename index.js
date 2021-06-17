@@ -1,6 +1,10 @@
 const express = require("express"),
+  morgan = require("morgan");
 
 const app = express();
+//use morgan to log data from all urls (middleware function)
+app.use(morgan("common"));
+
 // GET requests
 app.get("/", (req, res) => {
   res.send("Welcome to my Cinema API!");
