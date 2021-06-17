@@ -5,6 +5,12 @@ const app = express();
 //use morgan to log data from all urls (middleware function)
 app.use(morgan("common"));
 
+//log all app-level errors to the console (middleware function)
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send("Something went wrong.");
+});
+
 // GET requests
 app.get("/", (req, res) => {
   res.send("Welcome to my Cinema API!");
