@@ -163,13 +163,13 @@ app.use((err, req, res, next) => {
   res.status(500).send("Something went wrong.");
 });
 
-// GET requests
 app.get("/", (req, res) => {
   res.send("Welcome to my Cinema API!");
 });
 
 app.use(express.static("public"));
 
+//return all movies
 app.get("/movies", (req, res) => {
   res.json(movies);
   res.send("Successful GET request returning data on all movies");
@@ -217,6 +217,45 @@ app.get("/directors/:name", (req, res) => {
   res.send("Successful GET request returning data about " + director.name);
 });
 
+//Allow a new user to register
+app.post("/users", (req, res) => {
+  let newUser = req.body;
+
+  if (!newUser.name) {
+    const message = "Missing 'name' in request body";
+    res.status(400).send(message);
+  }
+  if (!newUser.username) {
+    const message = "Missing 'username' in request body";
+    res.status(400).send(message);
+  } else {
+    users.push(newUser);
+    res.status(201).send("Successful POST request to register a new user");
+  }
+});
+
+//Allow a user to update their username
+app.put("/users/:username", (req, res) => {
+  res.send("Successful PUT request to update a user by username");
+});
+
+//Allow a user to add a movie to their list of favorites
+app.post("/users/:username/favorites", (req, res) => {
+  res.send(
+    "Successful POST request to add a movie to a user's list of favorites"
+  );
+});
+
+//Allow a user to remove a movie from their list of favorites
+app.delete("/users/:username/favorites/:movie", (req, res) => {
+  res.send(
+    "Successful DELETE request to remove a movie from a user's list of favorites"
+  );
+});
+
+// Deletes a user by username
+app.delete("/users/:username", (req, res) => {
+  res.send("Successful DELETE request to unregister a user.");
 });
 
 //listen for requests
