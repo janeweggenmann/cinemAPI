@@ -1,5 +1,6 @@
 const express = require("express"),
-  morgan = require("morgan");
+  morgan = require("morgan"),
+  bodyParser = require("body-parser");
 
 const app = express();
 
@@ -152,6 +153,9 @@ let directors = [
 
 //use morgan to log data from all urls (middleware function)
 app.use(morgan("common"));
+
+//when accessing the body of a request, the data will be expected to be in JSON format
+app.use(bodyParser.json());
 
 //log all app-level errors to the console (middleware function)
 app.use((err, req, res, next) => {
