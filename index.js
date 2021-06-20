@@ -84,14 +84,34 @@ let movies = [
   }
 ];
 
+let genres = [
+  {
+    title: "Thriller",
+    description:
+      "Thrillers are characterized and defined by the moods they elicit, giving viewers heightened feelings of suspense, excitement, surprise, anticipation and anxiety."
   },
   {
+    title: "Horror",
+    description:
+      "Horror is a genre of film and television whose purpose is to create feelings of fear, dread, disgust, and terror in the audience. The primary goal is to develop an atmosphere that puts the audience on edge and scares them."
   },
   {
+    title: "Animated",
+    description:
+      "Animated is a genre in which the film's images are primarily created by computer or hand and the characters are voiced by actors. A skillful combination of caricature and artistry, animation amplifies reality, offering stories that are visually stylized, but emotionally truthful."
   },
   {
+    title: "Drama",
+    description:
+      "The drama genre features stories with high stakes and a lot of conflicts. They're plot-driven and demand that every character and scene move the story forward. Dramas follow a clearly defined narrative plot structure, portraying real-life scenarios or extreme situations with emotionally-driven characters."
   },
   {
+    title: "Adventure",
+    description:
+      "Adventure films are a genre of film whose plots feature elements of travel. They typically involve protagonists who must leave their home or place of comfort and go to far away lands to fulfill a goal. Settings play an important role in adventure films, sometimes as big as the characters themselves."
+  }
+];
+
   },
   {
   },
@@ -133,6 +153,23 @@ app.get("/movies/:name", (req, res) => {
   );
   res.send("Successful GET request returning data about " + movie.name);
 });
+
+//return all genres
+app.get("/genres", (req, res) => {
+  res.json(genres);
+  res.send("Successful GET request returning data on all genres");
+});
+
+//Return data about a genre by title
+app.get("/genres/:title", (req, res) => {
+  res.json(
+    genres.find(genre => {
+      return genre.title === req.params.title;
+    })
+  );
+  res.send("Successful GET request returning data about " + genre.title);
+});
+
 });
 
 //listen for requests
