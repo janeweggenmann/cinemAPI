@@ -112,14 +112,41 @@ let genres = [
   }
 ];
 
+let directors = [
+  {
+    name: "M. Night Shyamalan",
+    bio:
+      "M. Night Shyamalan is an American filmmaker, philanthropist, and actor. He is known for making original films with contemporary supernatural plots and twist endings. He was born in Mahé, India, and raised in Penn Valley, Pennsylvania.",
+    birthyear: 1970,
+    deathyear: ""
   },
   {
+    name: "Stanley Kubrick",
+    bio:
+      "Stanley Kubrick was an American film director, producer, screenwriter, and photographer. He is frequently cited as one of the greatest filmmakers in cinematic history. His films, which are mostly adaptations of novels or short stories, cover a wide range of genres, and are noted for their realism, dark humor, unique cinematography, extensive set designs, and evocative use of music.",
+    birthyear: 1928,
+    deathyear: 1999
   },
   {
+    name: "Hayao Miyazaki",
+    bio:
+      "Hayao Miyazaki is a Japanese animator, director, producer, screenwriter, author, and manga artist. A co-founder of Studio Ghibli, a film and animation studio, he has attained international acclaim as a masterful storyteller and as a maker of animated feature films, and is widely regarded as one of the most accomplished filmmakers in the history of animation.",
+    birthyear: 1941,
+    deathyear: ""
   },
   {
+    name: "Robert Zemeckis",
+    bio:
+      "Robert Lee Zemeckis is an American film director, film producer, and screenwriter who is frequently credited as an innovator in visual effects. He first came to public attention in the 1980s, but later diversified into more dramatic fare, including 1994's Forrest Gump, for which he won an Academy Award for Best Director; the film itself won Best Picture. The films he has directed have ranged across a wide variety of genres, for both adults and families.",
+    birthyear: 1951,
+    deathyear: ""
   },
   {
+    name: "Steven Spielberg",
+    bio:
+      "Steven Allan Spielberg is an American film director, producer, and screenwriter. He began his career in the New Hollywood era, and is one of the most commercially successful directors in history. Spielberg is the recipient of various accolades, including two Academy Awards for Best Director, a Kennedy Center honor, and a Cecil B. DeMille Award.",
+    birthyear: 1946,
+    deathyear: ""
   }
 ];
 
@@ -168,6 +195,22 @@ app.get("/genres/:title", (req, res) => {
     })
   );
   res.send("Successful GET request returning data about " + genre.title);
+});
+
+//return all directors
+app.get("/directors", (req, res) => {
+  res.json(directors);
+  res.send("Successful GET request returning data on all directors");
+});
+
+//Return data about a director by name
+app.get("/directors/:name", (req, res) => {
+  res.json(
+    directors.find(director => {
+      return director.name === req.params.name;
+    })
+  );
+  res.send("Successful GET request returning data about " + director.name);
 });
 
 });
