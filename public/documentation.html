@@ -15,5 +15,77 @@
       will be able to sign up, update their personal information, and create a
       list of their favorite movies.
     </p>
+    <table class="documentation-table">
+      <tr>
+        <th>Business Logic</th>
+        <th>URL</th>
+        <th>HTTP Method</th>
+        <th>Request</th>
+        <th>Response</th>
+      </tr>
+      <tr>
+        <td>Return a list of all movies</td>
+        <td>/movies</td>
+        <td>GET</td>
+        <td></td>
+        <td>Returns a list of all movies</td>
+      </tr>
+      <tr>
+        <td>Return data about a single movie by name</td>
+        <td>/movies/[name]</td>
+        <td>GET</td>
+        <td></td>
+        <td>Returns data (name, year, description, genre, director, image URL, featured) of a single movie by name.</td>
+      </tr>
+      <tr>
+        <td>Return data about a genre by title</td>
+        <td>/genres/[title]</td>
+        <td>GET</td>
+        <td></td>
+        <td>Returns data (title and description) of a genre by title.</td>
+      </tr>
+      <tr>
+        <td>Return data about a director by name</td>
+        <td>/directors/[name]</td>
+        <td>GET</td>
+        <td></td>
+        <td>Returns data (name, bio, birth year, death year) about a director by name.</td>
+      </tr>
+      <tr>
+        <td>Allow a new user to register</td>
+        <td>/users</td>
+        <td>POST</td>
+        <td>Data (name, username, email) must be provided.</td>
+        <td>Returns a message stating the registration was successful.</td>
+      </tr>
+      <tr>
+        <td>Allow a user to update their username</td>
+        <td>/users/[username]</td>
+        <td>PUT</td>
+        <td>Data (name and new username) must be provided.</td>
+        <td>Returns a message stating that the username has been successfully updated.</td>
+      </tr>
+      <tr>
+        <td>Allow a user to add a movie to their list of favorites</td>
+        <td>/users/favorites</td>
+        <td>POST</td>
+        <td></td>
+        <td>Returns a message stating that the movie was successfully added to their list of favorites.</td>
+      </tr>
+      <tr>
+        <td>Allow a user to remove a movie from their list of favorites</td>
+        <td>/users/favorites/[movie]</td>
+        <td>DELETE</td>
+        <td></td>
+        <td>Returns a message stating that the movie was successfully removed from their list of favorites.</td>
+      </tr>
+      <tr>
+        <td>Allow existing users to delete their account by username</td>
+        <td>/users/username</td>
+        <td>DELETE</td>
+        <td></td>
+        <td>Returns a messaging stating that the user's account was successfully deleted.</td>
+      </tr>
+    </table>
   </body>
 </html>
