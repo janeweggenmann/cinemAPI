@@ -82,6 +82,61 @@ app.get("/movies/director/:Name", (req, res) => {
     });
 });
 
+// Delete a movie by id
+app.delete("/movies/:MovieID", (req, res) => {
+  Movies.findOneAndRemove({ _id: req.params.MovieID })
+    .then(movie => {
+      if (!movie) {
+        res.status(400).send(req.params.MovieID + " was not found");
+      } else {
+        res.status(200).send(req.params.MovieID + " was deleted.");
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    });
+});
+
+// Add a movie
+app.post("/movies", (req, res) => {
+  Movies.findOne({ Name: req.params.Name })
+    .then(movie => {
+      if (movie) {
+        return res.status(400).send(req.params.Name + " already exists");
+      } else {
+        Movies.create({
+          Name: req.body.Name,
+          Year: req.body.Year,
+          Description: req.body.Description,
+          Genre: {
+            Name: req.body.Genre.Name,
+            Description: req.body.Genre.Description
+          },
+          Director: {
+            Name: req.body.Director.Name,
+            Bio: req.body.Director.Bio,
+            Birth: req.body.Director.Birth,
+            Death: req.body.Director.Death
+          },
+          ImageURL: req.body.ImageURL,
+          Featured: req.body.featured
+        })
+          .then(movie => {
+            res.status(201).json(movie);
+          })
+          .catch(error => {
+            console.error(error);
+            res.status(500).send("Error: " + error);
+          });
+      }
+    })
+    .catch(error => {
+      console.error(error);
+      res.status(500).send("Error: " + error);
+    });
+});
+
 //USER FUNCTIONS
 
 //get all users
@@ -118,10 +173,10 @@ app.get("/users/:Username", (req, res) => {
   Birthday: Date
 }*/
 app.post("/users", (req, res) => {
-  Users.findOne({ Username: req.body.Username })
+  Users.findOne({ Username: req.params.Username })
     .then(user => {
       if (user) {
-        return res.status(400).send(req.body.Username + " already exists");
+        return res.status(400).send(req.params.Username + " already exists");
       } else {
         Users.create({
           Username: req.body.Username,
@@ -196,7 +251,7 @@ app.post("/users/:Username/favorites/:MovieID", (req, res) => {
 
 // Allow users to remove a movie from their list of favorites
 app.delete("/users/:Username/favorites/:MovieID", (req, res) => {
-  Users.findOneAndRemove(
+  Users.findOneAndUpdate(
     { Username: req.params.Username },
     {
       $pull: { FavoriteMovies: req.params.MovieID }
