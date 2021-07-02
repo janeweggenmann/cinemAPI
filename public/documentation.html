@@ -7,109 +7,208 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Benne&family=Playfair+Display:wght@400;500&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../styles.css">
+    <style>
+      .page-container {
+        width: 90%;
+        margin: 0 auto;
+      }
+      h1, h3 {
+        font-family: 'Playfair Display', serif;
+        font-weight: 300;
+      }
+      p {
+        font-family: 'Roboto', sans-serif;
+      }
+      td, th {
+        text-align: left;
+        border: 1px solid black;
+        padding: 7px;
+        font-family: 'Roboto', sans-serif;
+        font-size: 10.5pt;
+      }
+      tr:nth-child(odd) {
+        background-color: #e0e0e0;
+      }
+      table {
+        border-collapse: collapse;
+      }
+      th {
+        background-color: #708090;
+        color: white;
+      }
+      .table-container {
+        margin-bottom: 30px;
+      }
+    </style>
   </head>
 
   <body class="page-container">
     <h1>CinemAPI: REST API Documentation</h1>
     <p>
       Welcome to CinemAPI! This is a REST API that provide users access to
-      information about different movies, directors, and genres. Users can sign
-      up, update their personal information, and create a list of their favorite
-      movies.<br>
+      information about different movies, directors, and genres. Users can also register for an account, update their information, and add and remove movies from their list of favorites.<br>
       <br>
       Please find endpoints in the table below.
     </p>
-    <table class="documentation-table">
+
+    <h3>Movies EndPoints</h3>
+    <table class="table-container">
       <tr>
-        <th>Business Logic</th>
-        <th>URL</th>
+        <th>Objective</th>
         <th>HTTP Method</th>
-        <th>Request</th>
+        <th>Endpoint</th>
         <th>Response</th>
       </tr>
       <tr>
-        <td>Return a list of all movies</td>
+        <td>Return a list of all movies in the database</td>
+        <td>GET</td>
         <td>/movies</td>
-        <td>GET</td>
-        <td></td>
-        <td>Returns a list of all movies</td>
+        <td>Returns an array of all movies in the database in JSON format. See examples below.</td>
       </tr>
       <tr>
-        <td>Return data about a single movie by name</td>
+        <td>Return data on a single movie, by movie name</td>
+        <td>GET</td>
         <td>/movies/[Name]</td>
-        <td>GET</td>
-        <td></td>
-        <td>Returns data (name, year, description, genre, director, image URL, featured) of a single movie by name.</td>
+        <td>Example data returned: <br>
+          <br>
+          { <br>
+            "Name": "The Sixth Sense", <br>
+            "Year": "1999", <br>
+            "Description": "A boy who communicates with spirits seeks the help of a disheartened child psychologist.", <br>
+            "Genre": { <br>
+              &emsp;&emsp;&emsp; "Name": "Thriller"<br>
+              &emsp;&emsp;&emsp; "Description": "Thrillers are characterized and defined by the moods they elicit, giving viewers heightened feelings of suspense, excitement, surprise, anticipation and anxiety."<br>
+            },<br>
+            "Director": { <br>
+              &emsp;&emsp;&emsp; "Name": "M. Night Shyamalan",<br>
+              &emsp;&emsp;&emsp; "Bio": "M. Night Shyamalan is an American filmmaker, philanthropist, and actor.",<br>
+              &emsp;&emsp;&emsp; "Birth": "1970"<br>
+            }, <br>
+            "ImageURL": "https://upload.wikimedia.org/wikipedia/en/a/a4/The_Sixth_Sense_poster.png", <br>
+            "Featured": true <br>
+        } <br>
+        </td>
       </tr>
       <tr>
-        <td>Return data about a genre by title</td>
+        <td>Return data on a single genre, by genre name</td>
+        <td>GET</td>
         <td>/movies/genre/[Genre Name]</td>
-        <td>GET</td>
-        <td></td>
-        <td>Returns data of a genre by name.</td>
+        <td> Example data returned: <br>
+          <br>
+          { <br>
+          "Genre": { <br>
+          &emsp;&emsp;&emsp; "Name": "Thriller"<br>
+          &emsp;&emsp;&emsp; "Description": "Thrillers are characterized and defined by the moods they elicit, giving viewers heightened feelings of suspense, excitement, surprise, anticipation and anxiety."<br>
+        } <br>
+        </td>
       </tr>
       <tr>
-        <td>Return data about a director by name</td>
+        <td>Return data on a single director, by name</td>
+        <td>GET</td>
         <td>/movies/director/[Director Name]</td>
-        <td>GET</td>
-        <td></td>
-        <td>Returns data (name, bio, birth year, death year) about a director by name.</td>
+        <td>Example data returned: <br>
+          <br>
+          { <br>
+          "Director": { <br>
+            &emsp;&emsp;&emsp; "Name": "M. Night Shyamalan",<br>
+            &emsp;&emsp;&emsp; "Bio": "M. Night Shyamalan is an American filmmaker, philanthropist, and actor.",<br>
+            &emsp;&emsp;&emsp; "Birth": "1970"<br>
+        }
+        </td>
+      </tr>
+    </table>
+
+    <h3>Users EndPoints</h3>
+    <table class="table-container">
+      <tr>
+        <th>Objective</th>
+        <th>HTTP Method</th>
+        <th>URL</th>
+        <th>Request Body</th>
+        <th>Response</th>
       </tr>
       <tr>
-        <td>Allow a new user to register</td>
-        <td>/users</td>
+        <td>Allow a new user to register for an account</td>
         <td>POST</td>
-        <td>Data must be provided in the following JSON format: <br>
+        <td>/users</td>
+        <td>User data must be provided in the following JSON format: <br>
           <br>
           { <br>
-            <p class="json-example">Username: [Username]*, </p>
-            <p class="json-example">Password: [Password]*, </p>
-            <p class="json-example">Email: [Email]*, </p>
-            <p class="json-example">Birthday: [YYYY-MM-DD] </p>
-          } <br>
-          <br>
-          <i>*(required)</i>
+          "Username": "[Username]", <br>
+          "Password": "[Password]", <br>
+          "Email": "[Email]", <br>
+          "Birthday": "[YYYY-MM-DD]" <br>
+        }
         </td>
-        <td>Returns a message stating the registration was successful.</td>
+        <td>Returns a message stating the user successfully registered</td>
       </tr>
       <tr>
-        <td>Allow a user to update their information</td>
-        <td>/users/[Username]</td>
+        <td>Allow a user to update their user information</td>
         <td>PUT</td>
-        <td>Data must be provided in the following JSON format: <br>
+        <td>/users/[Username]</td>
+        <td>User data must be provided in the following JSON format: <br>
           <br>
           { <br>
-            <p class="json-example">Username: [Username]*, </p>
-            <p class="json-example">Password: [Password]*, </p>
-            <p class="json-example">Email: [Email]*, </p>
-            <p class="json-example">Birthday: [YYYY-MM-DD] </p>
-          } <br>
-          <br>
-          <i>*(required)</i>
+          "Username": "[Username]", <br>
+          "Password": "[Password]", <br>
+          "Email": "[Email]", <br>
+          "Birthday": "[YYYY-MM-DD]" <br>
+        }
         </td>
-        <td>Returns a message stating that the user profile has been successfully updated.</td>
+        <td>Returns the updated user information in JSON format. Example data returned:
+          <br>
+          { <br>
+          "Username": "janeweggenmann", <br>
+          "Password": "passw0rd!", <br>
+          "Email": "janeweggenmann@gmail.com", <br>
+          "Birthday": "1996-06-20" <br>
+          }
+        </td>
       </tr>
       <tr>
         <td>Allow a user to add a movie to their list of favorites</td>
-        <td>/users/[Username]/favorites/[MovieID]</td>
         <td>POST</td>
+        <td>/users/[Username]/favorites/[MovieID]</td>
         <td></td>
-        <td>Returns a message stating that the movie was successfully added to their list of favorites.</td>
+        <td>Returns the updated user information in JSON format with updated array of favorite movies. Example data returned: <br>
+          <br>
+          { <br>
+          "Username": "janeweggenmann", <br>
+          "Password": "passw0rd!", <br>
+          "Email": "janeweggenmann@gmail.com", <br>
+          "Birthday": "1996-06-20", <br>
+          "FavoriteMovies": <br>
+          [ <br>
+          &emsp;&emsp;&emsp; "60dbc57c2126583711f84f7b", <br>
+          &emsp;&emsp;&emsp; "60dd2b57efba3a45116c9565" <br>
+          ] <br>
+          } <br>
+        </td>
       </tr>
       <tr>
         <td>Allow a user to remove a movie from their list of favorites</td>
-        <td>/users/[Username]/favorites/[MovieID]</td>
         <td>DELETE</td>
+        <td>/users/[Username]/favorites/[MovieID]</td>
         <td></td>
-        <td>Returns a message stating that the movie was successfully removed from their list of favorites.</td>
+        <td>Returns the updated user information in JSON format with movie removed from array of favorite movies. Example data returned: <br>
+          <br>
+          { <br>
+          "Username": "janeweggenmann", <br>
+          "Password": "passw0rd!", <br>
+          "Email": "janeweggenmann@gmail.com", <br>
+          "Birthday": "1996-06-20", <br>
+          "FavoriteMovies": <br>
+          [ <br>
+          &emsp;&emsp;&emsp; "60dbc57c2126583711f84f7b", <br>
+          ] <br>
+          } <br>
       </tr>
       <tr>
         <td>Allow existing users to delete their account by username</td>
-        <td>/users/[Username]</td>
         <td>DELETE</td>
+        <td>/users/[Username]</td>
         <td></td>
-        <td>Returns a messaging stating that the user's account was successfully deleted.</td>
+        <td>Returns a messaging stating that the user's account was successfully deleted. If the user does not exist in the database, and error message is returned stating the user was not found.</td>
       </tr>
     </table>
   </body>
