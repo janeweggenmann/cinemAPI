@@ -21,6 +21,13 @@ app.use(bodyParser.json());
 
 app.use(express.static("public"));
 
+//importing auth.js file
+let auth = require("./auth")(app);
+
+//import passport.js file and require Passport module
+const passport = require("passport");
+require("./passport");
+
 //log all app-level errors to the console (middleware function)
 app.use((err, req, res, next) => {
   console.error(err.stack);
