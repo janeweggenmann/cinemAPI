@@ -30,7 +30,16 @@ app.use(
   })
 );
 
+//old connection to local host
+/*
 mongoose.connect("mongodb://localhost:27017/cinemAPI", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
+*/
+
+//connect to heroku, uses key from heroku
+mongoose.connect(process.env.CONNECTION_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
