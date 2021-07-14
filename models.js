@@ -1,5 +1,8 @@
 const mongoose = require("mongoose");
 
+//hash users’ passwords and compare hashed passwords, secures login authentication process
+const bcrypt = require("bcrypt");
+
 let movieSchema = mongoose.Schema({
   Name: { type: String, required: true },
   Year: Date,
