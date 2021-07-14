@@ -236,7 +236,25 @@ app.get(
 app.post(
   "/users",
   passport.authenticate("jwt", { session: false }),
+  [
+    check("Username", "Username is required").isLength({ min: 5 }),
+    check(
+      "Username",
+      "Username contains non-alphanumeric characters."
+    ).isAlphanumeric(),
+    check("Password", "Password is required")
+      .not()
+      .isEmpty(),
+    check("Email", "Email does not appear to be valid").isEmail()
+  ],
   (req, res) => {
+    // check the validation object for errors
+    let errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
+
+    let hashedPassword = Users.hashPassword(req.body.Password);
     Users.findOne({ Username: req.body.Username })
       .then(user => {
         if (user) {
@@ -244,7 +262,7 @@ app.post(
         } else {
           Users.create({
             Username: req.body.Username,
-            Password: req.body.Password,
+            Password: hashedPassword, //hash password when registering before storing it in the MongoDB database
             Email: req.body.Email,
             Birthday: req.body.Birthday
           })
