@@ -12,7 +12,7 @@ const app = express();
 
 const cors = require("cors");
 //define which domains can access the API
-let allowedOrigins = ["http://localhost:8080"];
+let allowedOrigins = ["http://localhost:8080", "http://localhost:1234"];
 
 app.use(
   cors({
@@ -73,64 +73,52 @@ app.get("/", (req, res) => {
 //MOVIES FUNCTIONS
 
 //Return a list of ALL movies to the user
-app.get(
-  "/movies",
-  (req, res) => {
-    Movies.find()
-      .then(movies => {
-        res.status(200).json(movies);
-      })
-      .catch(err => {
-        console.error(err);
-        res.status(500).send("Error: " + err);
-      });
-  }
-);
+app.get("/movies", (req, res) => {
+  Movies.find()
+    .then(movies => {
+      res.status(200).json(movies);
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    });
+});
 
 //Return data about a single movie by title to the user
-app.get(
-  "/movies/:Name",
-  (req, res) => {
-    Movies.findOne({ Name: req.params.Name })
-      .then(movie => {
-        res.status(200).json(movie);
-      })
-      .catch(err => {
-        console.error(err);
-        res.status(500).send("Error: " + err);
-      });
-  }
-);
+app.get("/movies/:Name", (req, res) => {
+  Movies.findOne({ Name: req.params.Name })
+    .then(movie => {
+      res.status(200).json(movie);
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    });
+});
 
 //Return data about a genre by name
-app.get(
-  "/movies/genre/:Name",
-  (req, res) => {
-    Movies.findOne({ "Genre.Name": req.params.Name })
-      .then(movie => {
-        res.status(200).json(movie.Genre);
-      })
-      .catch(err => {
-        console.error(err);
-        res.status(500).send("Error: " + err);
-      });
-  }
-);
+app.get("/movies/genre/:Name", (req, res) => {
+  Movies.findOne({ "Genre.Name": req.params.Name })
+    .then(movie => {
+      res.status(200).json(movie.Genre);
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    });
+});
 
 //Return data about a director by name
-app.get(
-  "/movies/director/:Name",
-  (req, res) => {
-    Movies.findOne({ "Director.Name": req.params.Name })
-      .then(movie => {
-        res.status(200).json(movie.Director);
-      })
-      .catch(err => {
-        console.error(err);
-        res.status(500).send("Error: " + err);
-      });
-  }
-);
+app.get("/movies/director/:Name", (req, res) => {
+  Movies.findOne({ "Director.Name": req.params.Name })
+    .then(movie => {
+      res.status(200).json(movie.Director);
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    });
+});
 
 // Delete a movie by id
 app.delete(
