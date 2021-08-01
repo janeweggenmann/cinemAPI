@@ -183,6 +183,41 @@ app.post(
   }
 );
 
+//update a movie
+app.put("/movies/:Name", (req, res) => {
+  Movies.findOneAndUpdate(
+    { Name: req.params.Name },
+    {
+      $set: {
+        Name: req.body.Name,
+        Year: req.body.Year,
+        Description: req.body.Description,
+        Genre: {
+          Name: req.body.Genre.Name,
+          Description: req.body.Genre.Description
+        },
+        Director: {
+          Name: req.body.Director.Name,
+          Bio: req.body.Director.Bio,
+          Birth: req.body.Director.Birth,
+          Death: req.body.Director.Death
+        },
+        ImageURL: req.body.ImageURL,
+        Featured: req.body.featured
+      }
+    },
+    { new: true }, // This line makes sure that the updated document is returned
+    (err, updatedMovie) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send("Error: " + err);
+      } else {
+        res.json(updatedMovie);
+      }
+    }
+  );
+});
+
 //USER FUNCTIONS
 
 //get all users
