@@ -73,52 +73,68 @@ app.get("/", (req, res) => {
 //MOVIES FUNCTIONS
 
 //Return a list of ALL movies to the user
-app.get("/movies", (req, res) => {
-  Movies.find()
-    .then(movies => {
-      res.status(200).json(movies);
-    })
-    .catch(err => {
-      console.error(err);
-      res.status(500).send("Error: " + err);
-    });
-});
+app.get(
+  "/movies",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Movies.find()
+      .then(movies => {
+        res.status(200).json(movies);
+      })
+      .catch(err => {
+        console.error(err);
+        res.status(500).send("Error: " + err);
+      });
+  }
+);
 
 //Return data about a single movie by title to the user
-app.get("/movies/:Name", (req, res) => {
-  Movies.findOne({ Name: req.params.Name })
-    .then(movie => {
-      res.status(200).json(movie);
-    })
-    .catch(err => {
-      console.error(err);
-      res.status(500).send("Error: " + err);
-    });
-});
+app.get(
+  "/movies/:Name",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Movies.findOne({ Name: req.params.Name })
+      .then(movie => {
+        res.status(200).json(movie);
+      })
+      .catch(err => {
+        console.error(err);
+        res.status(500).send("Error: " + err);
+      });
+  }
+);
 
 //Return data about a genre by name
-app.get("/movies/genre/:Name", (req, res) => {
-  Movies.findOne({ "Genre.Name": req.params.Name })
-    .then(movie => {
-      res.status(200).json(movie.Genre);
-    })
-    .catch(err => {
-      console.error(err);
-      res.status(500).send("Error: " + err);
-    });
-});
+app.get(
+  "/movies/genre/:Name",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Movies.findOne({ "Genre.Name": req.params.Name })
+      .then(movie => {
+        res.status(200).json(movie.Genre);
+      })
+      .catch(err => {
+        console.error(err);
+        res.status(500).send("Error: " + err);
+      });
+  }
+);
 
 //Return data about a director by name
-app.get("/movies/director/:Name", (req, res) => {
-  Movies.findOne({ "Director.Name": req.params.Name })
-    .then(movie => {
-      res.status(200).json(movie.Director);
-    })
-    .catch(err => {
-      console.error(err);
-      res.status(500).send("Error: " + err);
-    });
-});
+app.get(
+  "/movies/director/:Name",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Movies.findOne({ "Director.Name": req.params.Name })
+      .then(movie => {
+        res.status(200).json(movie.Director);
+      })
+      .catch(err => {
+        console.error(err);
+        res.status(500).send("Error: " + err);
+      });
+  }
+);
 
 // Delete a movie by id
 app.delete(
@@ -184,39 +200,43 @@ app.post(
 );
 
 //update a movie
-app.put("/movies/:Name", (req, res) => {
-  Movies.findOneAndUpdate(
-    { Name: req.params.Name },
-    {
-      $set: {
-        Name: req.body.Name,
-        Year: req.body.Year,
-        Description: req.body.Description,
-        Genre: {
-          Name: req.body.Genre.Name,
-          Description: req.body.Genre.Description
-        },
-        Director: {
-          Name: req.body.Director.Name,
-          Bio: req.body.Director.Bio,
-          Birth: req.body.Director.Birth,
-          Death: req.body.Director.Death
-        },
-        ImageURL: req.body.ImageURL,
-        Featured: req.body.featured
+app.put(
+  "/movies/:Name",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Movies.findOneAndUpdate(
+      { Name: req.params.Name },
+      {
+        $set: {
+          Name: req.body.Name,
+          Year: req.body.Year,
+          Description: req.body.Description,
+          Genre: {
+            Name: req.body.Genre.Name,
+            Description: req.body.Genre.Description
+          },
+          Director: {
+            Name: req.body.Director.Name,
+            Bio: req.body.Director.Bio,
+            Birth: req.body.Director.Birth,
+            Death: req.body.Director.Death
+          },
+          ImageURL: req.body.ImageURL,
+          Featured: req.body.featured
+        }
+      },
+      { new: true }, // This line makes sure that the updated document is returned
+      (err, updatedMovie) => {
+        if (err) {
+          console.error(err);
+          res.status(500).send("Error: " + err);
+        } else {
+          res.json(updatedMovie);
+        }
       }
-    },
-    { new: true }, // This line makes sure that the updated document is returned
-    (err, updatedMovie) => {
-      if (err) {
-        console.error(err);
-        res.status(500).send("Error: " + err);
-      } else {
-        res.json(updatedMovie);
-      }
-    }
-  );
-});
+    );
+  }
+);
 
 //USER FUNCTIONS
 
