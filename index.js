@@ -12,7 +12,11 @@ const app = express();
 
 const cors = require("cors");
 //define which domains can access the API
-let allowedOrigins = ["http://localhost:8080", "http://localhost:1234"];
+let allowedOrigins = [
+  "http://localhost:8080",
+  "http://localhost:1234",
+  "https://cinemapi-weggenmann.netlify.app"
+];
 
 app.use(
   cors({
