@@ -1,4 +1,4 @@
-# Achievement 2 Project
+# Achievement 2 Project: CinemAPI
 Last Updated: July 1, 2021
 
 ## Welcome to CinemAPI
